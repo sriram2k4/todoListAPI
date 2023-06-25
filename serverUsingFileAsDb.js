@@ -2,12 +2,14 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-
+const cors = require('cors');
 const app = express();
 const port = 3000;
-let filePath = path.join(__dirname+("/fileDataBase.json"));
 
+app.use(cors());
 app.use(bodyParser.json());
+
+let filePath = path.join(__dirname+("/fileDataBase.json"));
 
 // Functions
 function getIndex(arr, id) {
@@ -96,7 +98,7 @@ app.delete('/todos/:id', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname+'/index.html'));
+    res.sendFile(filePath);
 })
 
 app.use((req, res) => {
