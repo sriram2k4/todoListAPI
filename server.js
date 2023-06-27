@@ -1,11 +1,12 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const {del} = require("express/lib/application");
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+app.use(cors());
 let todoList = [];
 
 // Functions
