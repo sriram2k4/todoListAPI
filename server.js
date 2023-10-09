@@ -20,14 +20,14 @@ function getIndex(arr, id) {
 function deleteAtIndex(arr, index) {
     let newTodoList = [];
     for (let i = 0; i < arr.length; i++) {
-        if(!(i === index)) newTodoList.push(arr[i]);
+        if (!(i === index)) newTodoList.push(arr[i]);
     }
     return newTodoList;
 }
 
 // Routes
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname+'/index.html'));
+    res.sendFile(path.join(__dirname + '/index.html'));
 })
 
 // Getting todoList
@@ -40,9 +40,9 @@ app.get('/todos/:id', (req, res) => {
     let id = req.params.id;
     let index = getIndex(todoList, id);
 
-    if(index === -1){
+    if (index === -1) {
         res.status(404).send("Not Found");
-    }else{
+    } else {
         res.status(200).json(todoList[index]);
     }
 });
@@ -50,8 +50,8 @@ app.get('/todos/:id', (req, res) => {
 // Creating a todoList using Post
 app.post('/todos', (req, res) => {
     let newTodo = {
-        id:Math.floor(Math.random()*1000000),
-        title:req.body.title,
+        id: Math.floor(Math.random() * 1000000),
+        title: req.body.title,
         description: req.body.description
     }
     todoList.push(newTodo);
@@ -63,17 +63,24 @@ app.delete('/todos/:id', (req, res) => {
     let id = req.params.id;
     let index = getIndex(todoList, id);
 
-    if(index === -1){
+    if (index === -1) {
         res.status(404).send("Not Found");
-    }else{
+    } else {
         todoList = deleteAtIndex(todoList, index);
         res.status(200).send(todoList);
     }
 });
 
+// Deleting all todos
+app.delete("/alltodos", (req, res) => {
+    todoList = [];
+    res.status(200).send(todoList);
+});
+
 app.use((req, res) => {
     res.status(404).send('Page Not Found');
 });
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
